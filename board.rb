@@ -1,24 +1,34 @@
+require_relative "piece"
+
 class Board
   attr_accessor :grid, :size
 
   def initialize(size = 8)
-    @grid = Array.new(8) {Array.new(8)}
+    @size = size
+    @grid = Array.new(@size) {Array.new(@size)}
 
 
   end
 
+
+
   def set_board
-    2.times do [x]
-      (@size).times do [y]
-        @grid[x][y] = Piece.new([x, y], :white, self) if black_square?([x, y])
+    2.times do |x|
+      @size.times do |y|
+        Piece.new([x, y], :white, self) if black_square?([x, y])
       end
     end
 
-    2.times do [x]
-      (@size).times do [y]
-        @grid[@size - 1 - x][y] = Piece.new([x, y], :black, self) if black_square?([x, y])
+    2.times do |x|
+      @size.times do |y|
+        Piece.new([(@size - 1 - x), y], :black, self) if black_square?([x, y])
       end
     end
+  end
+
+  def place_piece(piece, pos)
+    x, y = pos
+    @grid[x][y] = piece
   end
 
   def black_square?(pos)
