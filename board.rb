@@ -6,8 +6,6 @@ class Board
   def initialize(size = 8)
     @size = size
     @squares = Array.new(@size) {Array.new(@size)}
-
-
   end
 
   def display

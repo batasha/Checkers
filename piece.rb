@@ -16,56 +16,51 @@ class Piece
 
 
   def slide_moves
-    if self.king?
+    slide_moves = []
+    case @color
 
-    else
-      slide_moves = []
-      case @color
+    when :white
+      deltas = king? ? DELTAS : DELTAS[0..1]
 
-      when :white
-        deltas = king? ? DELTAS : deltas = DELTAS[0..1]
+    when :black
+      deltas = king? ? DELTAS : DELTAS[2..3]
+    end
 
-      when :black
-        deltas = king? ? DELTAS : deltas = DELTAS[2..3]
-      end
-
-      x, y = @pos
-      deltas.each do |dx, dy|
-        slide_moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
-      end
-     end
-
-    slide_moves
-  end
-
-  def jump_moves
-      case @color
-
-      when :white
-        deltas = king? ? DELTAS : deltas = DELTAS[0..1]
-        x, y = @pos
-
-        deltas.each do |dx, dy|
-          slide_moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
-        end
-
-      when :black
-        deltas = king? ? DELTAS : deltas = DELTAS[2..3]
-        x, y = @pos
-
-        deltas.each do |dx, dy|
-          slide_moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
-        end
-      end
+    x, y = @pos
+    deltas.each do |dx, dy|
+      to_pos = [x + dx, y + dy]
+      slide_moves << to_pos if @board.get_piece(to_pos).nil?
     end
 
     slide_moves
   end
 
 
+  def jump_moves
+    jump_moves = []
+    jump_deltas = DELTAS.map {|x, y| [x * 2, y * 2]}
 
-# elsif @board.get_piece([x + dx, y + dy]).color != @color
-#   jumps << [x + (2*dx), y + (2*dy)]
+    case @color
+    when :white
+      deltas = king? ? jump_deltas : jump_deltas[0..1]
+    when :black
+      deltas = king? ? jump_deltas : jump_deltas[2..3]
+      x, y = @pos
+    end
+
+    deltas.each do |dx, dy|
+      to_pos = [x + dx, y + dy]
+      jump_pos = [x + (dx / 2), y + (dy / 2)]
+
+      if @board.get_piece(to_pos).nil? &&
+        @board.get_piece(jump_pos) && @board.get_piece(jump_pos).color != @color
+        jump_moves << to_pos
+      end
+    end
+
+  jump_moves
+  end
+
 
 
   def display
