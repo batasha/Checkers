@@ -61,11 +61,17 @@ class Piece
   jump_moves
   end
 
+  def king_check
+    if (@color == :white && @pos[0] == 7) || (@color == :black && @pos[0] == 0)
+      @king = true
+    end
+  end
 
   def perform_slide(to_pos)
     if self.slide_moves.include?(to_pos)
       @board.remove_piece(@pos)
       @board.place_piece(self, to_pos)
+      king_check
 
     else
       raise InvalidMoveError.new("That is not a valid slide move!")
@@ -81,6 +87,7 @@ class Piece
       @board.remove_piece(@pos)
       @board.remove_piece(jumped_pos)
       @board.place_piece(self, to_pos)
+      king_check
 
     else
       raise InvalidMoveError.new("That is not a valid jump move!")
@@ -88,9 +95,20 @@ class Piece
   end
 
 
+  def perform_moves(*moves)
+    self.perform_moves!(*moves) if valid_move_seq?
+  end
+
+
   def perform_moves!(*moves)
+    king_crowned = false
+
     moves.each do |to_pos|
-      self.perform_jump(to_pos)
+      if king_crowned # => Tests whether piece was promoted on previous turn
+        raise InvalidMoveError.new("You can't move a king after he's crowned!")
+      end
+
+      king_crowned = self.perform_jump(to_pos)
     end
   end
 
@@ -99,13 +117,13 @@ class Piece
     test_piece = test_board.get_piece(@pos)
 
     begin
-      moves.each do |to_pos|
-        test_piece.perform_jump(to_pos)
-      end
-    rescue IllegalMoveError => e
+      test_piece.perform_moves!(*moves)
+    rescue InvalidMoveError => e
       puts e.message
     end
   end
+
+
 
   def dup(board)
     Piece.new(@pos, @color, board)

@@ -67,6 +67,12 @@ class Board
     end
   end
 
-
+  def dup
+    new_board = Board.new(@size)
+    self.squares.flatten.compact.each do |piece|
+      piece.dup(new_board)
+    end
+    new_board
+  end
 
 end
