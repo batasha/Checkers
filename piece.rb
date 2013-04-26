@@ -53,8 +53,9 @@ class Piece
       jump_pos = [x + (dx / 2), y + (dy / 2)]
 
       if @board.get_piece(to_pos).nil? &&
-        @board.get_piece(jump_pos) && @board.get_piece(jump_pos).color != @color
-        jump_moves << to_pos
+        @board.get_piece(jump_pos) &&
+        @board.get_piece(jump_pos).color != @color
+          jump_moves << to_pos
       end
     end
 
@@ -62,9 +63,8 @@ class Piece
   end
 
   def king_check
-    if (@color == :white && @pos[0] == 7) || (@color == :black && @pos[0] == 0)
-      @king = true
-    end
+    @king = @king == false && ((@color == :white && @pos[0] == 7) ||
+            (@color == :black && @pos[0] == 0))
   end
 
   def perform_slide(to_pos)
@@ -103,6 +103,14 @@ class Piece
   def perform_moves!(*moves)
     king_crowned = false
 
+    if moves.count == 1
+      if (moves.flatten[0] - @pos[0]).abs == 1
+        self.perform_slide(moves)
+      else
+        self.perform_jump
+      end
+
+    else
     moves.each do |to_pos|
       if king_crowned # => Tests whether piece was promoted on previous turn
         raise InvalidMoveError.new("You can't move a king after he's crowned!")
