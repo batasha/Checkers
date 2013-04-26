@@ -3,13 +3,14 @@ require_relative "board"
 require_relative "piece"
 
 class Game
-  attr_accessor :board
+  attr_accessor :board, :player1, :player2
 
   def initialize
-
-
     @board = Board.new
     @board.set_board
+
+    @player1 = Player.new
+    @player2 = Player.new
   end
 
   def run
@@ -17,6 +18,8 @@ class Game
 
     until game_over?
       @board.display
+      piece = @player1.get_piece
+      moves = @player2.get_moves
 
 
     end
