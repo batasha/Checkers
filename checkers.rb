@@ -1,6 +1,6 @@
 require_relative "player"
 require_relative "board"
-require_relative "piece"
+
 
 class Game
   attr_accessor :board, :player1, :player2
@@ -16,14 +16,13 @@ class Game
 
   def run
     puts "Welcome to Checkers!"
+    p self.game_over?
 
-    # Need to add methods to parse user input into arrays and call
-    # move methods from Board class.
-    until game_over?
-      @player1.take_turn
+    until self.game_over?
+      @player1.take_turn(@board)
       @board.display
 
-      @player2.take_turn
+      @player2.take_turn(@board)
       @board.display
     end
   end
@@ -36,3 +35,4 @@ class Game
 end
 
 a = Game.new
+a.run

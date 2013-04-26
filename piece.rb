@@ -27,6 +27,7 @@ class Piece
     end
 
     x, y = @pos
+
     deltas.each do |dx, dy|
       to_pos = [x + dx, y + dy]
       slide_moves << to_pos if @board.get_piece(to_pos).nil?
@@ -45,8 +46,9 @@ class Piece
       deltas = king? ? jump_deltas : jump_deltas[0..1]
     when :black
       deltas = king? ? jump_deltas : jump_deltas[2..3]
-      x, y = @pos
     end
+
+    x, y = @pos
 
     deltas.each do |dx, dy|
       to_pos = [x + dx, y + dy]
@@ -111,12 +113,13 @@ class Piece
       end
 
     else
-    moves.each do |to_pos|
-      if king_crowned # => Tests whether piece was promoted on previous turn
-        raise InvalidMoveError.new("You can't move a king after he's crowned!")
-      end
+      moves.each do |to_pos|
+        if king_crowned # => Tests whether piece was promoted on previous turn
+          raise InvalidMoveError.new("You can't move a king after he's crowned!")
+        end
 
-      king_crowned = self.perform_jump(to_pos)
+        king_crowned = self.perform_jump(to_pos)
+      end
     end
   end
 

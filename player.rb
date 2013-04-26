@@ -1,13 +1,13 @@
 require_relative "piece"
-require_relative "checkers"
+#require_relative "checkers"
 
 class Player
 
   def get_piece
     print "What piece would you like to move? (x,y) "
-    input = gets.chomp
-    piece = input.split(",").map {|el| el.to_i}
+    piece = gets.chomp.split(",").map {|el| el.to_i}
   end
+
 
   def get_moves
     done = false
@@ -22,9 +22,11 @@ class Player
     end
   end
 
-  def take_turn
-    piece = self.get_piece
+
+  def take_turn(board)
+    piece = board.get_piece(self.get_piece)
     moves = self.get_moves
+
     piece.perform_moves(moves)
   end
 
