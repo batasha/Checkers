@@ -15,7 +15,9 @@ class Piece
 
   end
 
-
+  def display
+    @color == :white ? "W" : "B"
+  end
 
 
 end

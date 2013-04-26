@@ -10,18 +10,29 @@ class Board
 
   end
 
-
+  def display
+    @size.times do |x|
+      @size.times do |y|
+        if @grid[x][y].nil?
+          print "_ "
+        else
+          print @grid[x][y].display + " "
+        end
+      end
+      print "\n"
+    end
+  end
 
   def set_board
-    2.times do |x|
-      @size.times do |y|
-        Piece.new([x, y], :white, self) if black_square?([x, y])
-      end
-    end
+    set_pieces(:white, 0)
 
+    set_pieces(:black, @size - 2)
+  end
+
+  def set_pieces(color, row)
     2.times do |x|
       @size.times do |y|
-        Piece.new([(@size - 1 - x), y], :black, self) if black_square?([x, y])
+        Piece.new([(row + x), y], color, self) if black_square?([(row + x), y])
       end
     end
   end
