@@ -1,3 +1,6 @@
+require_relative "piece"
+require_relative "checkers"
+
 class Player
 
   def get_piece
@@ -17,6 +20,12 @@ class Player
 
       moves << input.split(",").map {|el| el.to_i}
     end
+  end
+
+  def take_turn
+    piece = self.get_piece
+    moves = self.get_moves
+    piece.perform_moves(moves)
   end
 
 end

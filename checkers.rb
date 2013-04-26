@@ -8,6 +8,7 @@ class Game
   def initialize
     @board = Board.new
     @board.set_board
+    @board.display
 
     @player1 = Player.new
     @player2 = Player.new
@@ -19,25 +20,19 @@ class Game
     # Need to add methods to parse user input into arrays and call
     # move methods from Board class.
     until game_over?
+      @player1.take_turn
       @board.display
-      piece = @player1.get_piece
-      moves = @player1.get_moves
 
+      @player2.take_turn
       @board.display
-      piece = @player2.get_piece
-      moves = @player2.get_moves
     end
   end
 
 
   def game_over?
-    false
-
+    @board.winner?(:white) || @board.winner?(:black)
   end
 
 end
 
-def game_over?
-  false
-
-end
+a = Game.new
