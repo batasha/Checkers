@@ -19,9 +19,11 @@ class Game
     until game_over?
       @board.display
       piece = @player1.get_piece
+      moves = @player1.get_moves
+
+      @board.display
+      piece = @player2.get_piece
       moves = @player2.get_moves
-
-
     end
 
 end

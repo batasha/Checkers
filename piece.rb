@@ -50,11 +50,11 @@ class Piece
 
     deltas.each do |dx, dy|
       to_pos = [x + dx, y + dy]
-      jump_pos = [x + (dx / 2), y + (dy / 2)]
+      jumped_pos = self.between(to_pos)
 
       if @board.get_piece(to_pos).nil? &&
-        @board.get_piece(jump_pos) &&
-        @board.get_piece(jump_pos).color != @color
+        @board.get_piece(jumped_pos) &&
+        @board.get_piece(jumped_pos).color != @color
           jump_moves << to_pos
       end
     end

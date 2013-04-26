@@ -13,7 +13,7 @@ class Player
     loop do
       print "Please enter next move (x,y) or 'ok' when finished: "
       input = gets.chomp
-      return if input == "ok"
+      return moves if input == "ok"
 
       moves << input.split(",").map {|el| el.to_i}
     end
