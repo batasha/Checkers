@@ -40,19 +40,24 @@ class Board
   def place_piece(piece, pos)
     x, y = pos
     @squares[x][y] = piece
+    piece.pos = pos
   end
 
-  def remove_piece(piece)
-    x, y = piece.pos
+  def remove_piece(pos)
+    x, y = pos
     @squares[x][y] = nil
+  end
 
   def move_piece(from_pos, to_pos)
-    x, y = from_pos
-    dx, dy = to_pos
+    piece = get_piece(from_pos)
 
+    place_piece(piece, to_pos)
+    remove_piece(from_pos)
+  end
 
-
-
+  def get_piece(pos)
+    x, y = pos
+    @squares[x][y]
   end
 
   def black_square?(pos)

@@ -15,32 +15,58 @@ class Piece
   end
 
 
-  def poss_moves
+  def slide_moves
     if self.king?
 
     else
+      slide_moves = []
       case @color
+
       when :white
-        deltas = DELTAS[0..1]
-        moves = []
-        x, y = @pos
+        deltas = king? ? DELTAS : deltas = DELTAS[0..1]
 
-        deltas.each do |dx, dy|
-          moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
-        end
       when :black
-        deltas = DELTAS[2..3]
-        moves = []
+        deltas = king? ? DELTAS : deltas = DELTAS[2..3]
+      end
+
+      x, y = @pos
+      deltas.each do |dx, dy|
+        slide_moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
+      end
+     end
+
+    slide_moves
+  end
+
+  def jump_moves
+      case @color
+
+      when :white
+        deltas = king? ? DELTAS : deltas = DELTAS[0..1]
         x, y = @pos
 
         deltas.each do |dx, dy|
-          moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
-          moves << [x + (2*dx), y + (2*dy)] if @board.squares[x + dx][y + dy].color != @color
+          slide_moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
+        end
+
+      when :black
+        deltas = king? ? DELTAS : deltas = DELTAS[2..3]
+        x, y = @pos
+
+        deltas.each do |dx, dy|
+          slide_moves << [x + dx, y + dy] if @board.squares[x + dx][y + dy].nil?
         end
       end
     end
-    moves
+
+    slide_moves
   end
+
+
+
+# elsif @board.get_piece([x + dx, y + dy]).color != @color
+#   jumps << [x + (2*dx), y + (2*dy)]
+
 
   def display
     @color == :white ? "W" : "B"
