@@ -42,6 +42,19 @@ class Board
     @squares[x][y] = piece
   end
 
+  def remove_piece(piece)
+    x, y = piece.pos
+    @squares[x][y] = nil
+
+  def move_piece(from_pos, to_pos)
+    x, y = from_pos
+    dx, dy = to_pos
+
+
+
+
+  end
+
   def black_square?(pos)
     x, y = pos
     if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0
