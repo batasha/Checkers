@@ -61,11 +61,33 @@ class Piece
   jump_moves
   end
 
+  def perform_jump(to_pos)
+    if self.jump_moves.include?(to_pos)
+      jumped_pos = self.between(to_pos)
 
+      @board.remove_piece(@pos)
+      @board.remove_piece(jumped_pos)
+      @board.place_piece(self, to_pos)
+
+    else
+      raise InvalidMoveError.new("That is not a valid jump!")
+    end
+  end
+
+  def between(to_pos)
+    between_pos = []
+    2.times {|i| between_pos << (@pos[i] + to_pos[i]) / 2}
+    between_pos
+  end
 
   def display
     @color == :white ? "W" : "B"
   end
 
+
+
+end
+
+class InvalidMoveError < ArgumentError
 
 end
