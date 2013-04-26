@@ -48,10 +48,10 @@ class Board
 
   def move_piece(from_pos, to_pos)
     piece = get_piece(from_pos)
-
     place_piece(piece, to_pos)
     remove_piece(from_pos)
   end
+
 
   def get_piece(pos)
     x, y = pos

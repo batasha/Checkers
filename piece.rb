@@ -61,6 +61,18 @@ class Piece
   jump_moves
   end
 
+
+  def perform_slide(to_pos)
+    if self.slide_moves.include?(to_pos)
+      @board.remove_piece(@pos)
+      @board.place_piece(self, to_pos)
+
+    else
+      raise InvalidMoveError.new("That is not a valid slide move!")
+    end
+  end
+
+
   def perform_jump(to_pos)
     if self.jump_moves.include?(to_pos)
       jumped_pos = self.between(to_pos)
@@ -70,9 +82,20 @@ class Piece
       @board.place_piece(self, to_pos)
 
     else
-      raise InvalidMoveError.new("That is not a valid jump!")
+      raise InvalidMoveError.new("That is not a valid jump move!")
     end
   end
+
+  def perform_moves!(*moves)
+    moves.each do |to_pos|
+      if (to_pos[0] - @pos[0]).abs == 2
+        self.perform_jump(to_pos)
+      else
+        self.perform_slide(to_pos)
+      end
+    end
+  end
+
 
   def between(to_pos)
     between_pos = []
