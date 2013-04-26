@@ -1,11 +1,11 @@
 require_relative "piece"
 
 class Board
-  attr_accessor :grid, :size
+  attr_accessor :squares, :size
 
   def initialize(size = 8)
     @size = size
-    @grid = Array.new(@size) {Array.new(@size)}
+    @squares = Array.new(@size) {Array.new(@size)}
 
 
   end
@@ -13,10 +13,10 @@ class Board
   def display
     @size.times do |x|
       @size.times do |y|
-        if @grid[x][y].nil?
+        if @squares[x][y].nil?
           print "_ "
         else
-          print @grid[x][y].display + " "
+          print @squares[x][y].display + " "
         end
       end
       print "\n"
@@ -39,7 +39,7 @@ class Board
 
   def place_piece(piece, pos)
     x, y = pos
-    @grid[x][y] = piece
+    @squares[x][y] = piece
   end
 
   def black_square?(pos)
