@@ -73,6 +73,7 @@ class Piece
   end
 
 
+
   def perform_jump(to_pos)
     if self.jump_moves.include?(to_pos)
       jumped_pos = self.between(to_pos)
@@ -86,14 +87,28 @@ class Piece
     end
   end
 
+
   def perform_moves!(*moves)
     moves.each do |to_pos|
-      if (to_pos[0] - @pos[0]).abs == 2
-        self.perform_jump(to_pos)
-      else
-        self.perform_slide(to_pos)
-      end
+      self.perform_jump(to_pos)
     end
+  end
+
+  def valid_move_seq?(*moves)
+    test_board = @board.dup
+    test_piece = test_board.get_piece(@pos)
+
+    begin
+      moves.each do |to_pos|
+        test_piece.perform_jump(to_pos)
+      end
+    rescue IllegalMoveError => e
+      puts e.message
+    end
+  end
+
+  def dup(board)
+    Piece.new(@pos, @color, board)
   end
 
 
@@ -102,6 +117,7 @@ class Piece
     2.times {|i| between_pos << (@pos[i] + to_pos[i]) / 2}
     between_pos
   end
+
 
   def display
     @color == :white ? "W" : "B"
