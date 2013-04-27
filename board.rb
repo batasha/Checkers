@@ -80,8 +80,8 @@ class Board
     pieces = @squares.flatten.compact.select {|piece| piece.color == color}
 
     pieces.each do |piece|
-      moves << piece.slide_moves
-      moves << piece.jump_moves
+      moves += piece.slide_moves
+      moves += piece.jump_moves
     end
 
     moves.empty?

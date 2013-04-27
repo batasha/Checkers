@@ -70,6 +70,7 @@ class Piece
   end
 
   def perform_slide(to_pos)
+    p "slide_move"
     if self.slide_moves.include?(to_pos)
       @board.remove_piece(@pos)
       @board.place_piece(self, to_pos)
@@ -106,14 +107,18 @@ class Piece
 
   def perform_moves!(moves)
     king_crowned = false
-    
-    if moves.count == 1
-      moves.flatten!
+    # p moves
+    # p "moves count: #{moves.count}"
 
-      if (moves[0] - @pos[0]).abs == 1
-        self.perform_slide(moves)
+    if moves.count == 1
+      move = moves.flatten
+
+      # p "delta: #{(move[0] - @pos[0]).abs}"
+
+      if (move[0] - @pos[0]).abs == 1
+        self.perform_slide(move)
       else
-        self.perform_jump(moves)
+        self.perform_jump(move)
       end
 
     else
@@ -130,9 +135,10 @@ class Piece
   def valid_move_seq?(moves)
     test_board = @board.dup
     test_piece = test_board.get_piece(@pos)
-
+    # p test_board.display
     begin
       test_piece.perform_moves!(moves)
+      # p test_board.display
       return true
     rescue InvalidMoveError => e
       return false
