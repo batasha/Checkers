@@ -77,6 +77,7 @@ class Piece
 
     else
       raise InvalidMoveError.new("That is not a valid slide move!")
+      p "That is not a valid slide move!"
     end
   end
 
@@ -93,51 +94,55 @@ class Piece
 
     else
       raise InvalidMoveError.new("That is not a valid jump move!")
+      p "That is not a valid jump move!"
     end
   end
 
 
-  def perform_moves(*moves)
-    self.perform_moves!(*moves) if valid_move_seq?
+  def perform_moves(moves)
+    self.perform_moves!(moves) if valid_move_seq?(moves)
   end
 
 
-  def perform_moves!(*moves)
+  def perform_moves!(moves)
     king_crowned = false
-
+    
     if moves.count == 1
-      if (moves.flatten[0] - @pos[0]).abs == 1
+      moves.flatten!
+
+      if (moves[0] - @pos[0]).abs == 1
         self.perform_slide(moves)
       else
-        self.perform_jump
+        self.perform_jump(moves)
       end
 
     else
       moves.each do |to_pos|
         if king_crowned # => Tests whether piece was promoted on previous turn
           raise InvalidMoveError.new("You can't move a king after he's crowned!")
+        else
+          king_crowned = self.perform_jump(to_pos)
         end
-
-        king_crowned = self.perform_jump(to_pos)
       end
     end
   end
 
-  def valid_move_seq?(*moves)
+  def valid_move_seq?(moves)
     test_board = @board.dup
     test_piece = test_board.get_piece(@pos)
 
     begin
-      test_piece.perform_moves!(*moves)
+      test_piece.perform_moves!(moves)
+      return true
     rescue InvalidMoveError => e
-      puts e.message
+      return false
     end
   end
 
 
 
   def dup(board)
-    Piece.new(@pos, @color, board)
+    self.class.new(@pos, @color, board)
   end
 
 

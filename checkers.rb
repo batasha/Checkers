@@ -16,7 +16,6 @@ class Game
 
   def run
     puts "Welcome to Checkers!"
-    p self.game_over?
 
     until self.game_over?
       @player1.take_turn(@board)
