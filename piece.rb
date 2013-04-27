@@ -10,7 +10,9 @@ class Piece
     @king = false
     @color = color
     @board = board
-
+# REV: No problems with having the board set itself through
+# REV: set_pieces AND having the piece place itself on the 
+# REV: board during initialize? Was this for testing only?
     @board.place_piece(self, pos)
   end
 
@@ -32,7 +34,9 @@ class Piece
       to_pos = [x + dx, y + dy]
       slide_moves << to_pos if @board.get_piece(to_pos).nil?
     end
-
+# REV: You've restricted directions via picking the deltas,
+# REV: but what about y/x + dy/dx values that go off of the
+# REV: board? Those can return nil too.
     slide_moves
   end
 
@@ -53,17 +57,18 @@ class Piece
     deltas.each do |dx, dy|
       to_pos = [x + dx, y + dy]
       jumped_pos = self.between(to_pos)
-
+# REV: Love that between method, I might have to steal it.
       if @board.get_piece(to_pos).nil? &&
         @board.get_piece(jumped_pos) &&
         @board.get_piece(jumped_pos).color != @color
           jump_moves << to_pos
       end
+# REV: Same as with slide moves, does it give you moves off of the board?
     end
 
   jump_moves
   end
-
+# REV: Even in two lines, this is an insane ternary op.
   def king_check
     @king = @king == false && ((@color == :white && @pos[0] == 7) ||
             (@color == :black && @pos[0] == 0))

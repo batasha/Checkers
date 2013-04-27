@@ -8,7 +8,9 @@ class Board
     @squares = Array.new(@size) {Array.new(@size)}
   end
 
-
+# REV: I know this is a nitpicky thing, but please consider adding
+# REV: labeling your rows and columns. See my Board.display. It'll
+# REV: save you a lot of headaches. 
   def display
     @size.times do |x|
       @size.times do |y|
@@ -22,7 +24,10 @@ class Board
     end
   end
 
-
+# REV: I don't think set_board is setting the black pieces'
+# REV: color correctly. This was just from testing it via
+# REV: pry and loading just board.rb, making a new board, and
+# REV: and calling set_board.
   def set_board
     set_pieces(:white, 0)
     set_pieces(:black, @size - 3)
@@ -56,7 +61,7 @@ class Board
     @squares[x][y]
   end
 
-
+# REV: This mathy way of setting up the board looks efficient
   def black_square?(pos)
     x, y = pos
     if (x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)
@@ -75,6 +80,8 @@ class Board
     new_board
   end
 
+# REV: This accounts for having no pieces left on the board, right?
+# REV: If so, this is a great idea.
   def winner?(color)
     moves = []
     pieces = @squares.flatten.compact.select {|piece| piece.color == color}

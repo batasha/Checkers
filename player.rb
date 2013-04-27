@@ -12,7 +12,7 @@ class Player
   def get_moves
     done = false
     moves = []
-
+# REV: Never knew you could do a simple loop this way
     loop do
       print "Please enter next move (x,y) or 'ok' when finished: "
       input = gets.chomp
