@@ -1,6 +1,8 @@
+
 require_relative "piece"
 #require_relative "checkers"
 
+#REV Oh my god! There's stuff in the player class!
 class Player
 
   def get_piece

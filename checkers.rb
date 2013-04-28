@@ -1,7 +1,7 @@
 require_relative "player"
 require_relative "board"
 
-
+#REV Pretty straight forward, not much to say.
 class Game
   attr_accessor :board, :player1, :player2
 

@@ -14,7 +14,7 @@ class Piece
     @board.place_piece(self, pos)
   end
 
-
+  #REV the new line between the case and the whens is a little weird.
   def slide_moves
     slide_moves = []
     case @color
@@ -65,6 +65,9 @@ class Piece
   jump_moves
   end
 
+  #REV this seems more convoluted than it needs to be.
+  #    if king is a bool, we don't need to check if itss true before we set it to true
+  #    again.
   def king_check
     @king = @king == false && ((@color == :white && @pos[0] == 7) ||
             (@color == :black && @pos[0] == 0))
@@ -140,7 +143,6 @@ class Piece
       return false
     end
   end
-
 
 
   def dup(board)

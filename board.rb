@@ -3,6 +3,7 @@ require_relative "piece"
 class Board
   attr_accessor :squares, :size
 
+  #REV Size could be a constant, its not going to change between boards.
   def initialize(size = 8)
     @size = size
     @squares = Array.new(@size) {Array.new(@size)}
@@ -28,7 +29,8 @@ class Board
     set_pieces(:black, @size - 3)
   end
 
-
+  #REV the starting row depends on the color, right? So doesn't this method
+  #    only need one piece of information?
   def set_pieces(color, row)
     3.times do |x|
       @size.times do |y|
@@ -44,7 +46,8 @@ class Board
     piece.pos = pos
   end
 
-
+  #REV if you're only using the position once for these methods, why bother
+  #    assigning it to method local variables?
   def remove_piece(pos)
     x, y = pos
     @squares[x][y] = nil
@@ -56,7 +59,7 @@ class Board
     @squares[x][y]
   end
 
-
+  #REV there are .even? and .odd? methods that might help here.
   def black_square?(pos)
     x, y = pos
     if (x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)
