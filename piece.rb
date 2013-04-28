@@ -57,7 +57,8 @@ class Piece
       if @board.get_piece(to_pos).nil? &&
         @board.get_piece(jumped_pos) &&
         @board.get_piece(jumped_pos).color != @color
-          jump_moves << to_pos
+        
+        jump_moves << to_pos
       end
     end
 
@@ -107,15 +108,11 @@ class Piece
 
   def perform_moves!(moves)
     king_crowned = false
-    # p moves
-    # p "moves count: #{moves.count}"
-
+ 
     if moves.count == 1
       move = moves.flatten
 
-      # p "delta: #{(move[0] - @pos[0]).abs}"
-
-      if (move[0] - @pos[0]).abs == 1
+       if (move[0] - @pos[0]).abs == 1
         self.perform_slide(move)
       else
         self.perform_jump(move)
@@ -135,10 +132,9 @@ class Piece
   def valid_move_seq?(moves)
     test_board = @board.dup
     test_piece = test_board.get_piece(@pos)
-    # p test_board.display
+ 
     begin
       test_piece.perform_moves!(moves)
-      # p test_board.display
       return true
     rescue InvalidMoveError => e
       return false
