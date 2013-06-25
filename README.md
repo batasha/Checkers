@@ -6,9 +6,9 @@ A CL checkers game written in Ruby. Created for App Academy as a solo exercise.
 To Do:
 ------
 
-- [ ] Add row and column labels
-- [ ] Add quit option
-- [ ] Improve error handling
+- Add row and column labels
+- Add quit option
+- Improve error handling
 
 To Play:
 --------
