@@ -57,7 +57,7 @@ class Piece
       if @board.get_piece(to_pos).nil? &&
         @board.get_piece(jumped_pos) &&
         @board.get_piece(jumped_pos).color != @color
-        
+
         jump_moves << to_pos
       end
     end
@@ -71,7 +71,6 @@ class Piece
   end
 
   def perform_slide(to_pos)
-    p "slide_move"
     if self.slide_moves.include?(to_pos)
       @board.remove_piece(@pos)
       @board.place_piece(self, to_pos)
@@ -108,7 +107,7 @@ class Piece
 
   def perform_moves!(moves)
     king_crowned = false
- 
+
     if moves.count == 1
       move = moves.flatten
 
@@ -132,7 +131,7 @@ class Piece
   def valid_move_seq?(moves)
     test_board = @board.dup
     test_piece = test_board.get_piece(@pos)
- 
+
     begin
       test_piece.perform_moves!(moves)
       return true
